@@ -58,25 +58,15 @@ public:
             --(*this);
             return tmp;
         }
-        iterator operator+(difference_type offset) const
-        {
-            return iterator(ptr_ + offset);
-        }
-        iterator operator-(difference_type offset) const
-        {
-            return iterator(ptr_ - offset);
-        }
-        difference_type operator-(const iterator& other) const
-        {
-            return ptr_ - other.ptr_;
-        }
+        iterator operator+(difference_type offset) const { return iterator(ptr_ + offset); }
+        iterator operator-(difference_type offset) const { return iterator(ptr_ - offset); }
+        difference_type operator-(const iterator& other) const { return ptr_ - other.ptr_; }
         bool operator==(const iterator& other) const { return ptr_ == other.ptr_; }
         bool operator!=(const iterator& other) const { return ptr_ != other.ptr_; }
         bool operator<(const iterator& other) const { return ptr_ < other.ptr_; }
         bool operator>(const iterator& other) const { return ptr_ > other.ptr_; }
         bool operator<=(const iterator& other) const { return ptr_ <= other.ptr_; }
         bool operator>=(const iterator& other) const { return ptr_ >= other.ptr_; }
-
         inline operator const_iterator() const { return const_iterator(ptr_); }
 
     private:
@@ -119,42 +109,15 @@ public:
             --(*this);
             return tmp;
         }
-        const_iterator operator+(difference_type offset) const
-        {
-            return const_iterator(ptr_ + offset);
-        }
-        const_iterator operator-(difference_type offset) const
-        {
-            return const_iterator(ptr_ - offset);
-        }
-        difference_type operator-(const const_iterator& other) const
-        {
-            return ptr_ - other.ptr_;
-        }
-        bool operator==(const const_iterator& other) const
-        {
-            return ptr_ == other.ptr_;
-        }
-        bool operator!=(const const_iterator& other) const
-        {
-            return ptr_ != other.ptr_;
-        }
-        bool operator<(const const_iterator& other) const
-        {
-            return ptr_ < other.ptr_;
-        }
-        bool operator>(const const_iterator& other) const
-        {
-            return ptr_ > other.ptr_;
-        }
-        bool operator<=(const const_iterator& other) const
-        {
-            return ptr_ <= other.ptr_;
-        }
-        bool operator>=(const const_iterator& other) const
-        {
-            return ptr_ >= other.ptr_;
-        }
+        const_iterator operator+(difference_type offset) const { return const_iterator(ptr_ + offset); }
+        const_iterator operator-(difference_type offset) const { return const_iterator(ptr_ - offset); }
+        difference_type operator-(const const_iterator& other) const { return ptr_ - other.ptr_; }
+        bool operator==(const const_iterator& other) const { return ptr_ == other.ptr_; }
+        bool operator!=(const const_iterator& other) const { return ptr_ != other.ptr_; }
+        bool operator<(const const_iterator& other) const { return ptr_ < other.ptr_; }
+        bool operator>(const const_iterator& other) const { return ptr_ > other.ptr_; }
+        bool operator<=(const const_iterator& other) const { return ptr_ <= other.ptr_; }
+        bool operator>=(const const_iterator& other) const { return ptr_ >= other.ptr_; }
 
     private:
         pointer ptr_;
@@ -163,17 +126,16 @@ public:
     constexpr inplace_vector() noexcept :
         size_(0) {}
 
-    constexpr inplace_vector(const inplace_vector& other)
+    constexpr inplace_vector(const inplace_vector& other) :
+        size_(0)
     {
-        size_ = 0;
         for (const auto& elem : other)
         {
             push_back(elem);
         }
     }
 
-    constexpr inplace_vector(inplace_vector&& other) noexcept
-        :
+    constexpr inplace_vector(inplace_vector&& other) noexcept :
         size_(other.size_)
     {
         for (size_type i = 0; i < size_; ++i)
@@ -261,23 +223,17 @@ public:
     }
 
     reference front() { return (*this)[0]; }
-
     const_reference front() const { return (*this)[0]; }
 
     reference back() { return (*this)[size_ - 1]; }
-
     const_reference back() const { return (*this)[size_ - 1]; }
 
     T* data() noexcept { return reinterpret_cast<T*>(data_); }
-
     const T* data() const noexcept { return reinterpret_cast<const T*>(data_); }
 
     constexpr size_type size() const noexcept { return size_; }
-
     static constexpr size_type capacity() noexcept { return N; }
-
     constexpr bool empty() const noexcept { return size_ == 0; }
-
     static constexpr size_type max_size() noexcept { return N; }
 
     void reserve(size_type new_cap)
@@ -398,35 +354,12 @@ public:
         std::swap(size_, other.size_);
     }
 
-    iterator begin() noexcept
-    {
-        return iterator(reinterpret_cast<T*>(&data_[0]));
-    }
-
-    const_iterator begin() const noexcept
-    {
-        return const_iterator(reinterpret_cast<const T*>(&data_[0]));
-    }
-
-    iterator end() noexcept
-    {
-        return iterator(reinterpret_cast<T*>(&data_[size_]));
-    }
-
-    const_iterator end() const noexcept
-    {
-        return const_iterator(reinterpret_cast<const T*>(&data_[size_]));
-    }
-
-    const_iterator cbegin() const noexcept
-    {
-        return const_iterator(reinterpret_cast<const T*>(&data_[0]));
-    }
-
-    const_iterator cend() const noexcept
-    {
-        return const_iterator(reinterpret_cast<const T*>(&data_[size_]));
-    }
+    iterator begin() noexcept { return iterator(reinterpret_cast<T*>(&data_[0])); }
+    const_iterator begin() const noexcept { return const_iterator(reinterpret_cast<const T*>(&data_[0])); }
+    iterator end() noexcept { return iterator(reinterpret_cast<T*>(&data_[size_])); }
+    const_iterator end() const noexcept { return const_iterator(reinterpret_cast<const T*>(&data_[size_])); }
+    const_iterator cbegin() const noexcept { return const_iterator(reinterpret_cast<const T*>(&data_[0])); }
+    const_iterator cend() const noexcept { return const_iterator(reinterpret_cast<const T*>(&data_[size_])); }
 
     iterator insert(const_iterator pos, const T& value)
     {
@@ -558,3 +491,45 @@ private:
     std::aligned_storage_t<sizeof(T), alignof(T)> data_[N];
     size_type size_;
 };
+
+template<class T, std::size_t N>
+constexpr bool operator==(const inplace_vector<T, N>& x, const inplace_vector<T, N>& y)
+{
+    return x.size() == y.size() && std::equal(x.begin(), x.end(), y.begin());
+}
+
+template<class T, std::size_t N>
+constexpr bool operator!=(const inplace_vector<T, N>& x, const inplace_vector<T, N>& y)
+{
+    return !(x == y);
+}
+
+template<class T, std::size_t N>
+constexpr bool operator<(const inplace_vector<T, N>& x, const inplace_vector<T, N>& y)
+{
+    return std::lexicographical_compare(x.begin(), x.end(), y.begin(), y.end());
+}
+
+template<class T, std::size_t N>
+constexpr bool operator<=(const inplace_vector<T, N>& x, const inplace_vector<T, N>& y)
+{
+    return !(y < x);
+}
+
+template<class T, std::size_t N>
+constexpr bool operator>(const inplace_vector<T, N>& x, const inplace_vector<T, N>& y)
+{
+    return y < x;
+}
+
+template<class T, std::size_t N>
+constexpr bool operator>=(const inplace_vector<T, N>& x, const inplace_vector<T, N>& y)
+{
+    return !(x < y);
+}
+
+template<class T, std::size_t N>
+constexpr void swap(inplace_vector<T, N>& x, inplace_vector<T, N>& y) noexcept(noexcept(x.swap(y)))
+{
+    x.swap(y);
+}
