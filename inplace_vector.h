@@ -234,12 +234,12 @@ public:
 
     reference operator[](size_type n)
     {
-        return *reinterpret_cast<T*>(&data_[n]);
+        return reinterpret_cast<reference>(data_[n]);
     }
 
     const_reference operator[](size_type n) const
     {
-        return *reinterpret_cast<const T*>(&data_[n]);
+        return reinterpret_cast<const_reference>(data_[n]);
     }
 
     reference at(size_type n)
