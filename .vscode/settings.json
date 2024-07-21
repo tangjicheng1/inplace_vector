@@ -1,6 +1,6 @@
 {
     "clangd.fallbackFlags": [
-        "-I${workspaceFolder}",
+        "-I${workspaceFolder}/",
         "-I${workspaceFolder}/example",
         "-std=c++17"
     ]
