@@ -17,7 +17,7 @@ To use `inplace_vector`, simply include the header file in your project.
 No additional libraries or dependencies are required.
 
 ```cpp
-#include "inplace_vector.hpp"
+#include "inplace_vector.h"
 
 // Example usage
 inplace_vector<int, 10> vec;
