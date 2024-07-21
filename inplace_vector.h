@@ -301,7 +301,7 @@ public:
         }
     }
 
-    T& push_back(const T& value)
+    void push_back(const T& value)
     {
         if (size_ >= N)
         {
@@ -309,10 +309,9 @@ public:
         }
         new (&data_[size_]) T(value);
         ++size_;
-        return back();
     }
 
-    T& push_back(T&& value)
+    void push_back(T&& value)
     {
         if (size_ >= N)
         {
@@ -320,7 +319,6 @@ public:
         }
         new (&data_[size_]) T(std::move(value));
         ++size_;
-        return back();
     }
 
     T* try_push_back(const T& value)
