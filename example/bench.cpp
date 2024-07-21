@@ -43,7 +43,7 @@ void benchmark_push_back()
         }
     });
 
-    std::cout << "Push Back - inplace_vector: " << inplace_time << " ms, std::vector: " << std_time << " ms\n";
+    std::cout << "Push Back \n- inplace_vector: " << inplace_time << " ms, std::vector: " << std_time << " ms\n\n";
 }
 
 void benchmark_access()
@@ -73,7 +73,7 @@ void benchmark_access()
         }
     });
 
-    std::cout << "Access - inplace_vector: " << inplace_time << " ms, std::vector: " << std_time << " ms\n";
+    std::cout << "Access \n- inplace_vector: " << inplace_time << " ms, std::vector: " << std_time << " ms\n\n";
 }
 
 void benchmark_pop_back()
@@ -103,7 +103,7 @@ void benchmark_pop_back()
         }
     });
 
-    std::cout << "Pop Back - inplace_vector: " << inplace_time << " ms, std::vector: " << std_time << " ms\n";
+    std::cout << "Pop Back \n- inplace_vector: " << inplace_time << " ms, std::vector: " << std_time << " ms\n\n";
 }
 
 void benchmark_modify()
@@ -131,7 +131,7 @@ void benchmark_modify()
         }
     });
 
-    std::cout << "Modify - inplace_vector: " << inplace_time << " ms, std::vector: " << std_time << " ms\n";
+    std::cout << "Modify \n- inplace_vector: " << inplace_time << " ms, std::vector: " << std_time << " ms\n\n";
 }
 
 int main()
