@@ -2,13 +2,13 @@
 #include <vector>
 #include <chrono>
 #include <numeric>
-#include "inplace_vector.h"  // Include your inplace_vector header
+#include "inplace_vector.h"
 
 constexpr int num_elements = 1000;
 constexpr int num_iterations = 100;
 
 using Clock = std::chrono::high_resolution_clock;
-using Duration = std::chrono::duration<double, std::milli>;
+using Duration = std::chrono::duration<double, std::micro>;
 
 template<typename Func>
 double measure_time(Func func)
@@ -43,7 +43,9 @@ void benchmark_push_back()
         }
     });
 
-    std::cout << "Push Back \n- inplace_vector: " << inplace_time << " ms, std::vector: " << std_time << " ms\n\n";
+    std::cout << "Push Back:\n";
+    std::cout << "  - inplace_vector: " << inplace_time << " µs\n";
+    std::cout << "  - std::vector:    " << std_time << " µs\n\n";
 }
 
 void benchmark_access()
@@ -73,7 +75,9 @@ void benchmark_access()
         }
     });
 
-    std::cout << "Access \n- inplace_vector: " << inplace_time << " ms, std::vector: " << std_time << " ms\n\n";
+    std::cout << "Access:\n";
+    std::cout << "  - inplace_vector: " << inplace_time << " µs\n";
+    std::cout << "  - std::vector:    " << std_time << " µs\n\n";
 }
 
 void benchmark_pop_back()
@@ -103,7 +107,9 @@ void benchmark_pop_back()
         }
     });
 
-    std::cout << "Pop Back \n- inplace_vector: " << inplace_time << " ms, std::vector: " << std_time << " ms\n\n";
+    std::cout << "Pop Back:\n";
+    std::cout << "  - inplace_vector: " << inplace_time << " µs\n";
+    std::cout << "  - std::vector:    " << std_time << " µs\n\n";
 }
 
 void benchmark_modify()
@@ -131,7 +137,9 @@ void benchmark_modify()
         }
     });
 
-    std::cout << "Modify \n- inplace_vector: " << inplace_time << " ms, std::vector: " << std_time << " ms\n\n";
+    std::cout << "Modify:\n";
+    std::cout << "  - inplace_vector: " << inplace_time << " µs\n";
+    std::cout << "  - std::vector:    " << std_time << " µs\n\n";
 }
 
 int main()
