@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <type_traits>
 #include <utility>
+#include <memory>
 
 template<typename T, std::size_t N>
 class inplace_vector
@@ -17,6 +18,7 @@ public:
     using const_reference = const T&;
     using size_type = std::size_t;
     using difference_type = std::ptrdiff_t;
+    using allocator_type = std::allocator<T>;
 
     class const_iterator;
 
@@ -75,7 +77,6 @@ public:
         bool operator<=(const iterator& other) const { return ptr_ <= other.ptr_; }
         bool operator>=(const iterator& other) const { return ptr_ >= other.ptr_; }
 
-        // 添加隐式转换操作符
         inline operator const_iterator() const { return const_iterator(ptr_); }
 
     private:
@@ -212,6 +213,25 @@ public:
         return *this;
     }
 
+    void assign(size_type count, const T& value)
+    {
+        clear();
+        for (size_type i = 0; i < count; ++i)
+        {
+            push_back(value);
+        }
+    }
+
+    template<class InputIt>
+    void assign(InputIt first, InputIt last)
+    {
+        clear();
+        for (auto it = first; it != last; ++it)
+        {
+            push_back(*it);
+        }
+    }
+
     reference operator[](size_type n)
     {
         return *reinterpret_cast<T*>(&data_[n]);
@@ -248,11 +268,30 @@ public:
 
     const_reference back() const { return (*this)[size_ - 1]; }
 
+    T* data() noexcept { return reinterpret_cast<T*>(data_); }
+
+    const T* data() const noexcept { return reinterpret_cast<const T*>(data_); }
+
     constexpr size_type size() const noexcept { return size_; }
 
     static constexpr size_type capacity() noexcept { return N; }
 
     constexpr bool empty() const noexcept { return size_ == 0; }
+
+    static constexpr size_type max_size() noexcept { return N; }
+
+    void reserve(size_type new_cap)
+    {
+        if (new_cap > N)
+        {
+            throw std::length_error("inplace_vector cannot exceed its fixed capacity");
+        }
+    }
+
+    void shrink_to_fit() noexcept
+    {
+        // Do nothing since this is a fixed capacity container
+    }
 
     void clear()
     {
@@ -510,6 +549,11 @@ public:
         {
             push_back(value);
         }
+    }
+
+    allocator_type get_allocator() const noexcept
+    {
+        return allocator_type();
     }
 
 private:
